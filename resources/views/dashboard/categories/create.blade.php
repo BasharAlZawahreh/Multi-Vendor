@@ -8,7 +8,7 @@
                         <h4 class="card-title">Create Category</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('categories.store') }}" method="post">
+                        <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -28,8 +28,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input type="file" name="image" id="image" class="form-control">
-
+                                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                                @error('image')
+                                <div class="text-danger">{{ $message }}</div>
+                               @enderror
                             </div>
                             <div class="form-group">
                                 <label for="status">Status</label>

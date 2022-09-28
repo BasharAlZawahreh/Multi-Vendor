@@ -9,7 +9,8 @@
                         <h4 class="card-title">Edit Category</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('categories.update', $category->id) }}" method="post">
+                        <form action="{{ route('categories.update', $category->id) }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
@@ -31,17 +32,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input type="file" name="image" id="image"
-                                    class="form-control">
+                                <input type="file" name="image" id="image" class="form-control">
 
+                                @if ($category->image)
+                                    <img src="{{ asset('storage/' . $category->image) }}" alt="" width="100px">
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="status">Status</label>
-
                                 <select name="status" id="status" class="form-control">
-                                    <option>Choose One</option>
-                                    <option @selected($category->status=='active') value="active">Active</option>
-                                    <option @selected($category->status=='inactive')value="inactive">Inactive</option>
+                                    <option @selected($category->status === 'active') value="active">Active</option>
+                                    <option @selected($category->status === 'inactive') value="inactive">Inactive</option>
                                 </select>
                                 @error('status')
                                     <div class="text-danger">{{ $message }}</div>
@@ -52,7 +53,7 @@
                                 <select name="parent_id" id="parent_id" class="form-control">
                                     <option value="">Select Parent</option>
                                     @foreach ($categories as $cat)
-                                        <option @selected($category->parent_id== $cat->id) value="{{ $cat->id }}">
+                                        <option @selected($category->parent_id == $cat->id) value="{{ $cat->id }}">
                                             {{ $cat->name }}</option>
                                     @endforeach
                                 </select>
