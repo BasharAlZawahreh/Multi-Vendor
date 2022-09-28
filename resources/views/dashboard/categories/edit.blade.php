@@ -15,7 +15,7 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" value="{{ $category->name }}"
+                                <input type="text" name="name" id="name" value=" {{old('name',$category->name) }}"
                                     class="form-control">
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea type="text" name="description" id="description" class="form-control">
-                                    {{ $category->description }}
+                                    {{old('description',$category->description) }}
                                 </textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
@@ -41,8 +41,8 @@
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control">
-                                    <option @selected($category->status === 'active') value="active">Active</option>
-                                    <option @selected($category->status === 'inactive') value="inactive">Inactive</option>
+                                    <option @selected(old('status',$category->status) === 'active') value="active">Active</option>
+                                    <option @selected(old('status',$category->status) === 'inactive') value="inactive">Inactive</option>
                                 </select>
                                 @error('status')
                                     <div class="text-danger">{{ $message }}</div>
@@ -53,7 +53,7 @@
                                 <select name="parent_id" id="parent_id" class="form-control">
                                     <option value="">Select Parent</option>
                                     @foreach ($categories as $cat)
-                                        <option @selected($category->parent_id == $cat->id) value="{{ $cat->id }}">
+                                        <option @selected(old('parent_id',$category->parent_id) == $cat->id) value="{{ $cat->id }}">
                                             {{ $cat->name }}</option>
                                     @endforeach
                                 </select>

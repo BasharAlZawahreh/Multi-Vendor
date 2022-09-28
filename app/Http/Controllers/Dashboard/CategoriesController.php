@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,16 +25,9 @@ class CategoriesController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-
-        $attributes = $request->validate([
-            'name' => 'required|string|max:255',
-            'parent_id' => 'nullable|exists:categories,id',
-            'description' => 'nullable|string',
-            'status' => 'required|in:active,inactive',
-            'image' => 'nullable|image'
-        ]);
+        $attributes = $request->validated();
         $attributes['image'] = $this->uploadImage($request);
         $attributes['slug'] = \Str::slug($request->name);
 
@@ -65,15 +59,9 @@ class CategoriesController extends Controller
     }
 
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $attributes = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'status' => 'required|in:active,inactive',
-            'parent_id' => 'nullable|exists:categories,id',
-            'image' => 'nullable|image'
-        ]);
+        $attributes = $request->validated();
 
         $attributes['image'] = $this->uploadImage($request, $category->image);
 
