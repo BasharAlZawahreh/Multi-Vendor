@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TorodController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -24,7 +23,6 @@ Route::post('/webhook',function(){
     logger(request()->all());
 });
 
-Route::get('/torods_cities',[TorodController::class,'index']);
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/dashboard.php';
