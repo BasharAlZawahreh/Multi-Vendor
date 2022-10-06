@@ -12,8 +12,10 @@ class CategoriesController extends Controller
 {
     public function index()
     {
+        $categories = Category::filter(request()->all())->paginate(10);
+
         return view('dashboard.categories.index', [
-            'categories' => Category::all()
+            'categories' => $categories
         ]);
     }
 

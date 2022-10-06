@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
        Validator::extend('filter', function ($attribute, $value, $parameters, $validator) {
             return !in_array(strtolower($value), $parameters);
         }, 'This value is prohipited.');
+
+        // Paginator::useBootstrapFour();
     }
 }

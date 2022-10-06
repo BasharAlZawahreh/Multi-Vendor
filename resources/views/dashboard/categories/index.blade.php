@@ -14,6 +14,15 @@
             <a href="{{ route('categories.create') }}" class="btn btn-primary">Create</a>
         </div>
 
+        <form action="{{ URL::current() }}" method="get" class="d-flex jsutify-content-between mb-4">
+            <input type="text" placeholder="name" name="name" class="form-control mx-2" value="{{request('name')}}">
+            <select name="status" id="status" class="form-control mx-2">
+                <option value="">All</option>
+                <option value="active" @selected(request('status')=='active')>active</option>
+                <option value="inactive" @selected(request('status')=='inactive')>inactive</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
         <table class="table">
             <thead>
                 <tr>
@@ -21,6 +30,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Parent</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Created At</th>
                     <th colspan="2">Actions</th>
                 </tr>
@@ -29,11 +39,12 @@
                 <tr>
                     @forelse ($categories as $category)
                         <td>
-                            <img src="{{ asset('storage/'.$category->image) }}" alt="{{ $category->name }}" class="sm" >
+                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="sm">
                         </td>
                         <td scope="col">{{ $category->id }}</td>
                         <td scope="col">{{ $category->name }}</td>
                         <td scope="col">{{ $category->parent_id }}</td>
+                        <td scope="col">{{ $category->status }}</td>
                         <td scope="col">{{ $category->created_at }}</td>
                         <td scope="col">
                             <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary">
@@ -56,6 +67,7 @@
                 @endforelse
             </tbody>
         </table>
+        {{ $categories->withQueryString()->links() }}
     </div>
 @endsection
 

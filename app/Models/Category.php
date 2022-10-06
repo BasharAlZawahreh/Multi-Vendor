@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Rules\filterRule;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,24 @@ class Category extends Model
 {
     use HasFactory;
     protected  $guarded = [];
+
+
+    public function scopeFilter(Builder $builder, array $filters)
+    {
+        $builder->when($filters['name'] ?? false, function ($query, $name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        });
+        
+        $builder->when($filters['status'] ?? false, function ($query, $status) {
+            $query->where('status', $status);
+        });
+
+        // $query = isset($filters['name']) && $filters['name']? $builder->where('name', 'like', '%'.$filters['name'].'%') : $builder;
+        // $query = isset($filters['status']) && $filters['status']? $query->where('status', $filters['status']) : $query;
+
+        // return $query;
+    }
+
 
     public static function rules($id=0)
     {

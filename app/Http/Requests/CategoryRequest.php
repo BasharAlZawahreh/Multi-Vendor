@@ -24,7 +24,7 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $id=$this->route('category');
+        $id=$this->route('category')->id??0;
         return Category::rules($id);
     }
 
