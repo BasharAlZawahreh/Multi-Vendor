@@ -12,7 +12,15 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::filter(request()->all())->paginate(10);
+        $categories = Category::leftJoin('categories as parent', 'parent.id', '=', 'categories.parent_id')
+            ->select([
+                'categories.*',
+                'parent.name as parent_name'
+            ])
+            ->filter(request()->query())
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('dashboard.categories.index', [
             'categories' => $categories
@@ -76,7 +84,6 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        $category->image && Storage::disk('public')->delete($category->image); // delete the image from the storage folder
 
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
@@ -86,9 +93,7 @@ class CategoriesController extends Controller
         if (!$request->hasFile('image')) {
             return $old_image;
         }
-        if ($old_image) {
-            Storage::disk('public')->delete($old_image);
-        }
+
 
         $image = $request->file('image'); // get the image
         $path = $image->store('uploads', [
@@ -96,5 +101,33 @@ class CategoriesController extends Controller
         ]); // store the image in the storage folder and return the path
 
         return $path;
+    }
+
+    public function trsashed()
+    {
+        $categories = Category::onlyTrashed()->paginate(10);
+
+        return view('dashboard.categories.trashed', [
+            'categories' => $categories
+        ]);
+    }
+
+    public function restoreTrashed($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+
+        return redirect()->back()->with('success', 'Category restored successfully.');
+    }
+
+    public function hardDelete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $old_image= $category->image;
+
+        if ($old_image) {
+            Storage::disk('public')->delete($old_image);
+        }
+        return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 }

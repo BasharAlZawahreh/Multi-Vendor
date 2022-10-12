@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Categories')
+@section('title', 'Trashed Categories')
 
 @section('breadcrumbs')
     @parent
-    <li class="breadcrumb-item active">Categories</li>
+    <li class="breadcrumb-item ">Categories</li>
+    <li class="breadcrumb-item active">Trash</li>
 @endsection
 
 @section('content')
     <div class="content-wrapper">
 
-        <div class="left mb-5">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">Create</a>
-            <a href="{{ route('cat.trashed') }}" class="btn btn-outline-dark">Trashed</a>
+        <div class="left">
+            <a href="{{ route('categories.index') }}" class="btn btn-primary">Create</a>
         </div>
 
         <form action="{{ URL::current() }}" method="get" class="d-flex jsutify-content-between mb-4">
@@ -30,24 +30,32 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Deleted At</th>
+                    <th scope="col">Created At</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     @forelse ($categories as $category)
+                        <td>
+                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="sm">
+                        </td>
                         <td scope="col">{{ $category->id }}</td>
                         <td scope="col">{{ $category->name }}</td>
                         <td scope="col">{{ $category->status }}</td>
-                        <td scope="col">{{ $category->deleted_at }}</td>
+                        <td scope="col">{{ $category->created_at }}</td>
                         <td scope="col">
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary">
-                                Edit
-                            </a>
+                            <form action="{{ route('cat.restore', $category->id) }}" method="post">
+                                @csrf
+                                @method('PUT')
+
+                                <button class="btn btn-primary">
+                                    restore
+                                </button>
+                            </form>
                         </td>
                         <td scope="col">
-                            <form action="{{ route('categories.destroy', $category->id) }}" method="post">
+                            <form action="{{ route('cat.hard_delete', $category->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
 
