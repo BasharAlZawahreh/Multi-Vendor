@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -17,10 +19,10 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker->name,
-            'description'=>$this->faker->text,
-            'slug'=>$this->faker->slug,
-            'image'=>$this->faker->imageUrl,
+            'name' => $this->faker->name(),
+            'slug' =>$this->faker->slug(),
+            'description'=>$this->faker->text(),
+            'image'=>$this->faker->imageUrl(300,300),
             'status'=>$this->faker->randomElement(['active','inactive'])
         ];
     }

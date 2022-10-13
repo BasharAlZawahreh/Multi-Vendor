@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\DashboardController;
-
-
+use App\Http\Controllers\ProductController;
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     return [
@@ -15,7 +14,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::resource('categories', CategoriesController::class)->where([
             'category' => '[0-9]+'
         ]),
-            Route::get('categories/trashed', [CategoriesController::class, 'trsashed'])->name('cat.trashed'),
+        Route::resource('product', ProductController::class),
+        Route::get('categories/trashed', [CategoriesController::class, 'trsashed'])->name('cat.trashed'),
     ];
 });
 
