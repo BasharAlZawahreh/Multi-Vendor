@@ -19,7 +19,7 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->productName,
             'slug' =>$this->faker->slug(),
             'store_id' => Store::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,

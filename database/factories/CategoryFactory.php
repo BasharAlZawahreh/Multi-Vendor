@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->department,
             'slug' =>$this->faker->slug(),
             'description'=>$this->faker->text(),
             'image'=>$this->faker->imageUrl(300,300),
