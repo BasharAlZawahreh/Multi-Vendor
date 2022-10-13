@@ -12,11 +12,9 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::leftJoin('categories as parent', 'parent.id', '=', 'categories.parent_id')
-            ->select([
-                'categories.*',
-                'parent.name as parent_name'
-            ])
+        $categories = Category::with('parent')
+            ->select('categories.*')
+            ->selectRaw('(SELECT COUNT(*) FROM products WHERE category_id = categories.id) as products_count')
             ->filter(request()->query())
             ->latest()
             ->paginate(10)
@@ -123,7 +121,7 @@ class CategoriesController extends Controller
     public function hardDelete($id)
     {
         $category = Category::onlyTrashed()->findOrFail($id);
-        $old_image= $category->image;
+        $old_image = $category->image;
 
         if ($old_image) {
             Storage::disk('public')->delete($old_image);

@@ -29,6 +29,8 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Parent</th>
+                    <th scope="col">Products #</th>
                     <th scope="col">Status</th>
                     <th scope="col">Created At</th>
                     <th colspan="2">Actions</th>
@@ -39,6 +41,8 @@
                     @forelse ($categories as $category)
                         <td scope="col">{{ $category->id }}</td>
                         <td scope="col">{{ $category->name }}</td>
+                        <td scope="col">{{ $category->parento->name }}</td>
+                        <td scope="col">{{ $category->products_count }}</td>
                         <td scope="col">{{ $category->status }}</td>
                         <td scope="col">{{ $category->created_at }}</td>
                         <td scope="col">

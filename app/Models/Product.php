@@ -19,11 +19,15 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class) ?? null;
+        return $this->belongsTo(Category::class)->withDefault([
+            'name' => 'No Category',
+        ]);
     }
 
     public function store()
     {
-        return $this->belongsTo(Store::class) ?? null;
+        return $this->belongsTo(Store::class)->withDefault([
+            'name' => 'No Store',
+        ]);
     }
 }
