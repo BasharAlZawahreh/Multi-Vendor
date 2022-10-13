@@ -30,7 +30,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Created At</th>
+                    <th scope="col">Deleted At</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
@@ -43,7 +43,7 @@
                         <td scope="col">{{ $category->id }}</td>
                         <td scope="col">{{ $category->name }}</td>
                         <td scope="col">{{ $category->status }}</td>
-                        <td scope="col">{{ $category->created_at }}</td>
+                        <td scope="col">{{ $category->deleted_at }}</td>
                         <td scope="col">
                             <form action="{{ route('cat.restore', $category->id) }}" method="post">
                                 @csrf

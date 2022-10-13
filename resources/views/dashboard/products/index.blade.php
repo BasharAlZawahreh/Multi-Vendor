@@ -1,18 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Categories')
+@section('title', 'products')
 
 @section('breadcrumbs')
     @parent
-    <li class="breadcrumb-item active">Categories</li>
+    <li class="breadcrumb-item active">products</li>
 @endsection
 
 @section('content')
     <div class="content-wrapper">
 
         <div class="left mb-5">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">Create</a>
-            <a href="{{ route('cat.trashed') }}" class="btn btn-outline-dark">Trashed</a>
+            <a href="{{ route('products.create') }}" class="btn btn-primary">Create</a>
         </div>
 
         <form action="{{ URL::current() }}" method="get" class="d-flex jsutify-content-between mb-4">
@@ -20,7 +19,8 @@
             <select name="status" id="status" class="form-control mx-2">
                 <option value="">All</option>
                 <option value="active" @selected(request('status')=='active')>active</option>
-                <option value="inactive" @selected(request('status')=='inactive')>inactive</option>
+                <option value="draft" @selected(request('status')=='draft')>draft</option>
+                <option value="archived" @selected(request('status')=='archived')>archived</option>
             </select>
             <button type="submit">Filter</button>
         </form>
@@ -28,6 +28,8 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Store</th>
                     <th scope="col">Name</th>
                     <th scope="col">Status</th>
                     <th scope="col">Created At</th>
@@ -36,18 +38,20 @@
             </thead>
             <tbody>
                 <tr>
-                    @forelse ($categories as $category)
-                        <td scope="col">{{ $category->id }}</td>
-                        <td scope="col">{{ $category->name }}</td>
-                        <td scope="col">{{ $category->status }}</td>
-                        <td scope="col">{{ $category->created_at }}</td>
+                    @forelse ($products as $product)
+                        <td scope="col">{{ $product->id }}</td>
+                        <td scope="col">{{ $product->category->name }}</td>
+                        <td scope="col">{{ $product->store->name }}</td>
+                        <td scope="col">{{ $product->name }}</td>
+                        <td scope="col">{{ $product->status }}</td>
+                        <td scope="col">{{ $product->created_at }}</td>
                         <td scope="col">
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary">
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">
                                 Edit
                             </a>
                         </td>
                         <td scope="col">
-                            <form action="{{ route('categories.destroy', $category->id) }}" method="post">
+                            <form action="{{ route('products.destroy', $product->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
 
@@ -58,11 +62,11 @@
                         </td>
                 </tr>
             @empty
-                <td colspan="7" class="text-center">No categories found</td>
+                <td colspan="7" class="text-center">No products found</td>
                 @endforelse
             </tbody>
         </table>
-        {{ $categories->withQueryString()->links() }}
+        {{ $products->withQueryString()->links() }}
     </div>
 @endsection
 

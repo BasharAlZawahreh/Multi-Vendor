@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -15,7 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::paginate(10);
+        $products = Product::with(['category', 'store'])
+            ->paginate(10)
+            ->withQueryString();
+        return view('dashboard.products.index', compact('products'));
     }
 
     /**
