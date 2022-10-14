@@ -40,7 +40,11 @@
                 <tr>
                     @forelse ($categories as $category)
                         <td scope="col">{{ $category->id }}</td>
-                        <td scope="col">{{ $category->name }}</td>
+                        <td scope="col">
+                            <a href="{{route('categories.show',$category->id)}}">
+                                {{ $category->name }}
+                            </a>
+                        </td>
                         <td scope="col">{{ $category->parento->name }}</td>
                         <td scope="col">{{ $category->products_count }}</td>
                         <td scope="col">{{ $category->status }}</td>

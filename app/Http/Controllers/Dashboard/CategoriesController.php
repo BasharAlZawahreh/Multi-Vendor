@@ -13,8 +13,11 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::with('parent')
-            ->select('categories.*')
-            ->selectRaw('(SELECT COUNT(*) FROM products WHERE category_id = categories.id) as products_count')
+            ->withCount([
+                'products as products_count' => function ($query) {
+                    $query->where('status', 'active');
+                }
+            ])
             ->filter(request()->query())
             ->latest()
             ->paginate(10)
@@ -49,7 +52,8 @@ class CategoriesController extends Controller
     public function show(Category $category)
     {
         return view('dashboard.categories.show', [
-            'category' => $category
+            'category' => $category,
+            'products' => $category->products()->with('store')->latest()->paginate(10)
         ]);
     }
 
