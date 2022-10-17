@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Tag;
 
 class ProductController extends Controller
 {
@@ -62,7 +64,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        $tags = $product->tags()->pluck('name')->toArray();
+        return view('dashboard.products.edit', compact(['product', 'categories', 'tags']));
     }
 
     /**
@@ -74,7 +78,18 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->except('tags'));
+
+        // $tags = explode(',', $request->post('tags')); // without using tagify
+        $tags = json_decode($request->post('tags'));
+        $tagsToBeSynced = [];
+        foreach ($tags as $t_name) {
+            $t = Tag::firstOrCreate(['name' => $t_name->value, 'slug' => \Str::slug($t_name->value)]);
+            $tagsToBeSynced[] = $t->id;
+        }
+        $product->tags()->sync($tagsToBeSynced);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
     /**

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ProfileController;
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     return [
@@ -16,6 +17,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::put('categories/{id}/restore', [CategoriesController::class, 'restoreTrashed'])->name('cat.restore'),
         Route::resource('products', ProductController::class),
         Route::get('categories/trashed', [CategoriesController::class, 'trsashed'])->name('cat.trashed'),
+
+        Route::get('profile/edit', [ProfileController::class,'edit'])->name('profiles.edit'),
+        Route::put('profile', [ProfileController::class,'update'])->name('profiles.update'),
     ];
 });
 

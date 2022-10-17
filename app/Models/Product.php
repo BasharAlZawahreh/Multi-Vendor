@@ -30,4 +30,16 @@ class Product extends Model
             'name' => 'No Store',
         ]);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(
+            Tag::class, // related model
+            'product_tag', // pivot table
+            'product_id', // foreign key on pivot table
+            'tag_id', // related key on pivot table
+            'id',   // local key
+            'id'    // related key
+        );
+    }
 }
