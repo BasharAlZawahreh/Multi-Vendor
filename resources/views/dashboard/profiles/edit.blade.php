@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label for="birth_date">Birthdate</label>
                                 <input type="date" name="birth_date" id="birth_date"
-                                    value=" {{ old('birth_date', $profile->birth_date) }}" class="form-control">
+                                    value="{{ date(old('birth_date', $profile->birth_date)) }}" class="form-control">
                                 @error('birth_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -45,13 +45,13 @@
                                 <div>
                                     <label for="gender">Gender</label> <br />
                                     <input type="radio" name="gender" id="gender" value="male"
-                                        @selected(old('gender', $profile->gender) == 'male')>
+                                        @checked(old('gender', $profile->gender) == 'male')>
                                     <label>Male</label>
                                 </div>
 
 
                                 <input type="radio" name="gender" id="gender" value="female" class="form-control"
-                                    @selected(old('gender', $profile->gender) == 'female')>
+                                    @checked(old('gender', $profile->gender) == 'female')>
 
                                 <label>Female</label>
 
@@ -63,9 +63,7 @@
                             <div class="form-group">
                                 <label for="address">address</label>
 
-                                <textarea name="address" id="address" class="form-control">
-                                    {{ old('address', $profile->address) }}
-                                </textarea>
+                                <textarea name="address" id="address" class="form-control">{{ old('address', $profile->address) }}</textarea>
                                 @error('address')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
