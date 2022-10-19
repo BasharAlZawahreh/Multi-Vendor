@@ -18,10 +18,10 @@ class StoreScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
         $user = auth()->user();
-        if ($user->name == 'Admin') {
-            $builder;
+        if ($user && $user->hasStore) {
+            $builder->where('store_id', $user->store->id);
         } else {
-            $builder->where('store_id', $user->store_id);
+            $builder;
         }
     }
 }
