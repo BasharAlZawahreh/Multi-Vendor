@@ -6,7 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 
-Route::prefix('dashboard')->middleware(['auth'])->group(function () {
+Route::prefix('dashboard')->middleware(['auth.role:admin,super_admin'])->group(function () {
     return [
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard'),
 

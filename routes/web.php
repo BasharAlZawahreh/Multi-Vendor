@@ -32,8 +32,8 @@ Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->nam
 
 
 
-Route::post('/webhook',function(){
-    logger(request()->all());
+Route::post('/paypal/webhook',function(){
+    return 'webhook called';
 });
 
 
