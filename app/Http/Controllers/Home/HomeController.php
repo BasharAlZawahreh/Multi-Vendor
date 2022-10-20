@@ -9,6 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
+
         $products = Product::active()
             ->with('category')
             ->latest()

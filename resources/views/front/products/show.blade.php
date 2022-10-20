@@ -31,8 +31,7 @@
                         <div class="product-images">
                             <main id="gallery">
                                 <div class="main-img">
-                                    <img src="{{$product->image_url}}" id="current"
-                                        alt="#">
+                                    <img src="{{ $product->image_url }}" id="current" alt="#">
                                 </div>
                                 <div class="images">
                                     <img src="{{ asset('assets/images/product-details/01.jpg') }}" class="img"
@@ -49,85 +48,99 @@
                             </main>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 col-12">
-                        <div class="product-info">
-                            <h2 class="title">{{ $product->namep }}</h2>
-                            <p class="category"><i class="lni lni-tag"></i> {{ $product->category->name }}<a
-                                    href="javascript:void(0)">{{ substr($product->category->description, 0, 50) }}...</a>
-                            </p>
-                            <h3 class="price">{{ Currency::format($product->price,'JOD') }}<span>{{ Currency::format($product->compare_price,'JOD') }}</span></h3>
-                            <p class="info-text">{{ $product->description }}</p>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-12">
-                                    <div class="form-group color-option">
-                                        <label class="title-label" for="size">Choose color</label>
-                                        <div class="single-checkbox checkbox-style-1">
-                                            <input type="checkbox" id="checkbox-1" checked>
-                                            <label for="checkbox-1"><span></span></label>
-                                        </div>
-                                        <div class="single-checkbox checkbox-style-2">
-                                            <input type="checkbox" id="checkbox-2">
-                                            <label for="checkbox-2"><span></span></label>
-                                        </div>
-                                        <div class="single-checkbox checkbox-style-3">
-                                            <input type="checkbox" id="checkbox-3">
-                                            <label for="checkbox-3"><span></span></label>
-                                        </div>
-                                        <div class="single-checkbox checkbox-style-4">
-                                            <input type="checkbox" id="checkbox-4">
-                                            <label for="checkbox-4"><span></span></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="color">Battery capacity</label>
-                                        <select class="form-control" id="color">
-                                            <option>5100 mAh</option>
-                                            <option>6200 mAh</option>
-                                            <option>8000 mAh</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-12">
-                                    <div class="form-group quantity">
-                                        <label for="color">Quantity</label>
-                                        <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bottom-content">
-                                <div class="row align-items-end">
+                    
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        @csrf
+                        <input type="text" hidden id="product_id" name="product_id" value="{{ $product->id }}">
+                        <div class="col-lg-6 col-md-12 col-12">
+                            <div class="product-info">
+                                <h2 class="title">{{ $product->namep }}</h2>
+                                <p class="category"><i class="lni lni-tag"></i> {{ $product->category->name }}<a
+                                        href="javascript:void(0)">{{ substr($product->category->description, 0, 50) }}...</a>
+                                </p>
+                                <h3 class="price">
+                                    {{ Currency::format($product->price, 'JOD') }}<span>{{ Currency::format($product->compare_price, 'JOD') }}</span>
+                                </h3>
+                                <p class="info-text">{{ $product->description }}</p>
+                                <div class="row">
                                     <div class="col-lg-4 col-md-4 col-12">
-                                        <div class="button cart-button">
-                                            <button class="btn" style="width: 100%;">Add to Cart</button>
+                                        <div class="form-group color-option">
+                                            <label class="title-label" for="size">Choose color</label>
+                                            <div class="single-checkbox checkbox-style-1">
+                                                <input type="checkbox" id="checkbox-1" checked>
+                                                <label for="checkbox-1"><span></span></label>
+                                            </div>
+                                            <div class="single-checkbox checkbox-style-2">
+                                                <input type="checkbox" id="checkbox-2">
+                                                <label for="checkbox-2"><span></span></label>
+                                            </div>
+                                            <div class="single-checkbox checkbox-style-3">
+                                                <input type="checkbox" id="checkbox-3">
+                                                <label for="checkbox-3"><span></span></label>
+                                            </div>
+                                            <div class="single-checkbox checkbox-style-4">
+                                                <input type="checkbox" id="checkbox-4">
+                                                <label for="checkbox-4"><span></span></label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
-                                        <div class="wish-button">
-                                            <button class="btn"><i class="lni lni-reload"></i> Compare</button>
+                                        <div class="form-group">
+                                            <label for="color">Battery capacity</label>
+                                            <select class="form-control" id="color">
+                                                <option>5100 mAh</option>
+                                                <option>6200 mAh</option>
+                                                <option>8000 mAh</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-12">
-                                        <div class="wish-button">
-                                            <form action="{{route('products.add-to-wishlist',$product->id)}}" method="post">
-                                                @csrf
 
-                                                <button type="submit" class="btn"><i class="lni lni-heart"></i> To
-                                                    Wishlist</button>
-                                            </form>
+
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                        <div class="form-group quantity">
+                                            <label for="color">Quantity</label>
+                                            <select name="quantity" class="form-control">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="bottom-content">
+                                    <div class="row align-items-end">
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <div class="button cart-button">
+                                                <button type="submit" class="btn" style="width: 100%;">Add to
+                                                    Cart</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <div class="wish-button">
+                                                <button class="btn"><i class="lni lni-reload"></i> Compare</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <div class="wish-button">
+                                                <form action="{{ route('products.add-to-wishlist', $product->id) }}"
+                                                    method="post">
+                                                    @csrf
+
+                                                    <button type="submit" class="btn"><i
+                                                            class="lni lni-heart"></i>
+                                                        To
+                                                        Wishlist</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="product-details-info">
