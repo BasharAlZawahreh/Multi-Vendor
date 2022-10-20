@@ -2,13 +2,15 @@
 
 namespace App\Repositories\Cart;
 
+use App\Models\Product;
 use Illuminate\Support\Collection;
 
 interface CartRepository
 {
     public function get(): Collection;
-    public function add($product, int $quantity = 1): void;
-    public function remove($product): void;
+    public function add(Product $product, int $quantity = 1): void;
+    public function update(Product $product, int $quantity = 1): void;
+    public function delete($id): void;
     public function clear(): void;
-
+    public function total(): float;
 }
