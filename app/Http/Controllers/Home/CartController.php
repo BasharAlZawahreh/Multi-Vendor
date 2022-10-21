@@ -17,38 +17,38 @@ class CartController extends Controller
         $this->cart = $cartRepository;
     }
 
-    public function index(CartRepository $cart) //injected CartRepository because its in the service container
+    public function index() //injected CartRepository because its in the service container
     {
         return view('front.cart', [
-            'cart' => $cart
+            'cart' => $this->cart
         ]);
     }
 
-    public function store(Request $request, CartRepository $cart)
+    public function store(Request $request)
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cart->add(Product::find($request->product_id), $request->quantity);
+        $this->cart->add(Product::find($request->product_id), $request->quantity);
         return redirect()->route('cart.index');
     }
 
-    public function update(Request $request, CartRepository $cart)
+    public function update(Request $request)
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cart->update(Product::find($request->product_id), $request->quantity);
+        $this->cart->update(Product::find($request->product_id), $request->quantity);
         return redirect()->route('cart.index');
     }
 
-    public function destroy(CartRepository $cart, $id)
+    public function destroy($id)
     {
-        $cart->delete($id);
+        $this->cart->delete($id);
         return redirect()->route('cart.index');
     }
 }
