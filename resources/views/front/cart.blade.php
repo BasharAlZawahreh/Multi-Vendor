@@ -66,7 +66,8 @@
     <script>
         const csrfToken = {{ csrf_token() }}
     </script>
-    
+
     <script src="{{asset('js/cart.js')}}"></script>
     @endpush
+    @vite('js/cart.js')
 </x-front-layout>

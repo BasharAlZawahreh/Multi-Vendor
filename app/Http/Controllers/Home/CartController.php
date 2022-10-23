@@ -35,14 +35,13 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $this->cart->update(Product::find($request->product_id), $request->quantity);
+        $this->cart->update($id, $request->quantity);
         return redirect()->route('cart.index');
     }
 
