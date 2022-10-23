@@ -42,7 +42,7 @@
                                     <span>{{ Currency::format($item->product->price * $item->quantity) }}</span>
                                 </div>
                                 <div class="form-controll">
-                                    <input type="text" value="{{$item->quantity}}">
+                                    <input type="text" class="data-quantity" data-id="{{$item->id}}" value="{{$item->quantity}}">
                                 </div>
                             </div>
                         </div>
@@ -61,4 +61,12 @@
         </div>
     </section>
     <!-- End Trending Product Area -->
+
+    @push('secripts')
+    <script>
+        const csrfToken = {{ csrf_token() }}
+    </script>
+    
+    <script src="{{asset('js/cart.js')}}"></script>
+    @endpush
 </x-front-layout>
