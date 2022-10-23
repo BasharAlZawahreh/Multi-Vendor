@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Repositories\Cart\CartModelRepository;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 
 class CartController extends Controller
 {
@@ -35,14 +33,18 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $this->cart->update($id, $request->quantity);
-        return redirect()->route('cart.index');
+        return $this->cart->update($id, $request->quantity);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart updated successfully'
+        ]);
     }
 
     public function destroy($id)

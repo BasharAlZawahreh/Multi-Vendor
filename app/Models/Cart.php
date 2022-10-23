@@ -13,6 +13,8 @@ class Cart extends Model
 
     public $incrementing = false;
     protected $guarded = [];
+    protected $table='carts';
+    protected $primaryKey = 'id';
 
     //Events (observers) >>> here or in the observer class (app/Observers/CartObserver.php)
     protected static function booted()
@@ -23,6 +25,7 @@ class Cart extends Model
         static::addGlobalScope('cookie_id', function ($query)  {
             $query->where('cookie_id', '=',  Self::getCookieId());
         });
+        
     }
 
     protected static function getCookieId()

@@ -1,5 +1,5 @@
-document.ready(function () {
-    $(".item-quantity").on("change", function () {
+$(document).ready(function () {
+    $(document).on("change",".data-quantity" , function () {
         var $this = $(this);
         var quantity = $this.val();
         var id = $this.data("id");
@@ -8,12 +8,13 @@ document.ready(function () {
             url: url,
             data: {
                 quantity: quantity,
-                _token: csrfToken,
             },
-            type: "PUT",
+            method: "PUT",
+            "Content-Type":"application/json",
             success: function (response) {
-                console.log(response);
+                console.log(response.message);
             },
         });
     });
 });
+

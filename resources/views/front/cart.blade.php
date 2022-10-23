@@ -62,12 +62,12 @@
     </section>
     <!-- End Trending Product Area -->
 
-    @push('secripts')
+    @push('scripts')
     <script>
-        const csrfToken = {{ csrf_token() }}
+        const csrfToken = "{{ csrf_token() }}"
+        
     </script>
 
     <script src="{{asset('js/cart.js')}}"></script>
     @endpush
-    @vite('js/cart.js')
 </x-front-layout>

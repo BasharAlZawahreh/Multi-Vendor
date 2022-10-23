@@ -30,11 +30,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/products', [ProductsController::class, 'index'])->name('front.products.index');
 Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->name('front.products.show');
 
-Route::resource('cart', CartController::class);
-
-Route::post('/paypal/webhook',function(){
-    return 'webhook called';
-});
+Route::resource('/cart', CartController::class);
 
 
 require __DIR__ . '/auth.php';

@@ -5,7 +5,6 @@ namespace App\Repositories\Cart;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cookie;
 
 class CartModelRepository implements CartRepository
 {
@@ -43,9 +42,9 @@ class CartModelRepository implements CartRepository
         }
     }
 
-    public function update($id, int $quantity = 1): void
+    public function update($id, $quantity):void
     {
-        Cart::find($id)->update([
+        Cart::where('id', '=', $id)->update([
             'quantity' => $quantity,
         ]);
     }
