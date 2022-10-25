@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Home\CartController;
+use App\Http\Controllers\Home\CheckoutController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Home\ProductsController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +31,9 @@ Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->nam
 
 Route::resource('/cart', CartController::class);
 
+
+Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/dashboard.php';
