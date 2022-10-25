@@ -42,7 +42,7 @@ class CartModelRepository implements CartRepository
         }
     }
 
-    public function update($id, $quantity):void
+    public function update($id, $quantity): void
     {
         Cart::where('id', '=', $id)->update([
             'quantity' => $quantity,

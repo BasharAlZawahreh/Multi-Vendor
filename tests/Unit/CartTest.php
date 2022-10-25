@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Facades\Cart;
+use App\Models\Cart as ModelsCart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
@@ -19,10 +20,10 @@ class CartTest extends TestCase
     public function test_update_cart_quantity()
     {
         $store = Store::factory()->create();
-        $category =  Category::factory()->create();
+        $category = Category::factory()->create();
         $product = Product::factory()->create([
-            'store_id' => $store->id,
             'category_id' => $category->id,
+            'store_id' => $store->id
         ]);
 
         Cart::add($product, 1);

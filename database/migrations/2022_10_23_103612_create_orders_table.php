@@ -20,10 +20,6 @@ return new class extends Migration
                 ->constrained()
                 ->nullonDelete();
 
-            $table->foreignId('address_id')->nullable()
-                ->constrained()
-                ->nullonDelete();
-
             $table->foreignId('product_id')
                 ->constrained()
                 ->cascadeOnDelete();
@@ -46,7 +42,7 @@ return new class extends Migration
                 'pending',
                 'paid',
                 'failed',
-            ])->default('pinging');
+            ])->default('pending');
 
             $table->enum('payment_method', [
                 'cash',
