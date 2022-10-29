@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use NumberFormatter;
+
 class Currency
 {
 
@@ -11,7 +13,7 @@ class Currency
             $currency =config('app.currency','USD');
         }
 
-        $formatter = new \NumberFormatter(config('app.locale'), \NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter(config('app.locale'), NumberFormatter::CURRENCY);
         return $formatter->formatCurrency($amount, $currency);
     }
 }

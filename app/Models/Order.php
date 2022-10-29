@@ -49,19 +49,19 @@ class Order extends Model
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(OrderAddress::class);
 
         // return $this->morphMany(Address::class, 'addressable');
     }
 
     public function billingAddress()
     {
-        return $this->hasOne(Address::class)->where('type', 'billing');
+        return $this->hasOne(OrderAddress::class)->where('type', 'billing');
     }
 
     public function shippingAddress()
     {
-        return $this->hasOne(Address::class)->where('type', 'shipping');
+        return $this->hasOne(OrderAddress::class)->where('type', 'shipping');
     }
 
     /*

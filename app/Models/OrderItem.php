@@ -12,6 +12,7 @@ class OrderItem extends Pivot
     protected $guarded = []; // <-- This is the default value, so you can remove this line
     protected $table = 'order_items'; // <-- This is NOT the default for pivot, so we're including it
     public $incrementing = true; // <-- This is NOT the default for pivot, so we're including it
+    public $timestamps = false; // <-- This is NOT the default for pivot, so we're including it
 
     public function product()
     {

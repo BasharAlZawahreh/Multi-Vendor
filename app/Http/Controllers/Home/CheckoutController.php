@@ -9,17 +9,19 @@ use App\Models\OrderItem;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Intl\Countries;
 
 class CheckoutController extends Controller
 {
-    public function create()
+    public function create(CartRepository $cart)
     {
-        if (Cart::get()->count() == 0) {
-            redirect()->back();
+        if ($cart->get()->count() == 0) {
+            redirect()->route('home.index');
         }
-        
+
         return view('front.checkout', [
-            'cart' => Cart::get(),
+            'cart'=>$cart,
+            'countries'=>Countries::getNames(),
         ]);
     }
 
@@ -39,8 +41,7 @@ class CheckoutController extends Controller
             foreach ($items as $store_id => $cart_items) {
                 $order = Order::create([
                     'user_id' => auth()->id(),
-                    'store_id' => 1,
-                    'status' => 'pending',
+                    'store_id' => $store_id,
                 ]);
 
                 foreach ($cart_items as $item) {
@@ -48,23 +49,30 @@ class CheckoutController extends Controller
                         'order_id' => $order->id,
                         'product_id' => $item->product_id,
                         'product_name' => $item->product->name,
-                        'price' => $item->product->price,
+                        'product_price' => $item->product->price,
                         'quantity' => $item->quantity,
+                        'total' => $item->product->price * $item->quantity,
                     ]);
                 }
 
-                foreach ($request['address'] as $type => $address) {
-                    'billing' === $type ?
-                        $order->billingAddress()->create($address) :
-                        $order->shippingAddress()->create($address);
+                foreach ($request->post('addr') as $type => $address) {
+                    $address['type'] = $type;
+                    $order->addresses()->create($address);
                 }
             }
 
             $cart->clear();
             DB::commit();
+
+            // event('order.created');
+
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
         }
+
+        return redirect()->route('home.index');
     }
 }
+
+
