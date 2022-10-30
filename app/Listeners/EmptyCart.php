@@ -15,7 +15,7 @@ class EmptyCart
 
     }
 
-    public function handle()
+    public function handle($event)
     {
         Cart::clear();
     }

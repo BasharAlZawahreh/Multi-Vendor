@@ -39,8 +39,13 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        return $this->cart->update($id, $request->quantity);
+        if ($this->cart->get()->find($id)->product->quantity < $request->quantity) {
+            return response()->json([
+                'message' => 'The quantity you entered is not available',
+            ], 422);
+        }
 
+        $this->cart->update($id, $request->quantity);
         return response()->json([
             'success' => true,
             'message' => 'Cart updated successfully'

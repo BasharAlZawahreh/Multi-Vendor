@@ -16,8 +16,11 @@ $(document).ready(function () {
       },
       method: "PUT",
       "Content-Type": "application/json",
-      success: function success(response) {
-        console.log(response.message);
+      success: function success(res) {
+        console.log(res.message);
+      },
+      error: function error(res) {
+        alert(res.responseJSON.message);
       }
     });
   });

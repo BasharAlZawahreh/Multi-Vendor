@@ -19,13 +19,12 @@ class Cart extends Model
     //Events (observers) >>> here or in the observer class (app/Observers/CartObserver.php)
     protected static function booted()
     {
-
         static::observe(CartObserver::class);
 
         static::addGlobalScope('cookie_id', function ($query)  {
             $query->where('cookie_id', '=',  Self::getCookieId());
         });
-        
+
     }
 
     protected static function getCookieId()

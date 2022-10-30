@@ -65,4 +65,6 @@ class CartModelRepository implements CartRepository
             return $item->quantity * $item->product->price;
         });
     }
+
+
 }

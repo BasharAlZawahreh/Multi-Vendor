@@ -11,9 +11,12 @@ $(document).ready(function () {
             },
             method: "PUT",
             "Content-Type":"application/json",
-            success: function (response) {
-                console.log(response.message);
+            success: function (res) {
+               console.log(res.message);
             },
+            error: function (res) {
+                alert(res.responseJSON.message);
+            }
         });
     });
 });

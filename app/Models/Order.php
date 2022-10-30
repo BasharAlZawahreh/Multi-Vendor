@@ -31,7 +31,8 @@ class Order extends Model
     {
         return $this
             ->belongsToMany(Product::class, 'order_items', 'order_id', 'product_id', 'id', 'id')
-            ->using(OrderItem::class) //because we have a custom pivot model
+            ->using(OrderItem::class)//because we have a custom pivot model
+            ->as('order_item') // to make an alias for the pivot table, so we call it like $order->order_item->quantity rather than $order->pivot->quantity
             ->withPivot(['product_name', 'options', 'quantity', 'price']);
     }
 
@@ -50,8 +51,6 @@ class Order extends Model
     public function addresses()
     {
         return $this->hasMany(OrderAddress::class);
-
-        // return $this->morphMany(Address::class, 'addressable');
     }
 
     public function billingAddress()
@@ -64,16 +63,4 @@ class Order extends Model
         return $this->hasOne(OrderAddress::class)->where('type', 'shipping');
     }
 
-    /*
-    // This is the default implementation of the above two methods
-    public function getShippingAddressAttribute()
-    {
-        return $this->addresses()->where('type', 'shipping')->first();
-    }
-
-    public function getBillingAddressAttribute()
-    {
-        return $this->addresses()->where('type', 'billing')->first();
-    }
-    */
 }

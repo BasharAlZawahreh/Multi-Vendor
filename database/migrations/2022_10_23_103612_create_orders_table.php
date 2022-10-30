@@ -20,10 +20,6 @@ return new class extends Migration
                 ->constrained()
                 ->nullonDelete();
 
-            $table->foreignId('product_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
             $table->foreignId('store_id')
                 ->constrained()
                 ->cascadeOnDelete();
