@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Facades\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Repositories\Cart\CartRepository;
@@ -9,17 +10,16 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    protected $cart;
-    function __construct(CartRepository $cartRepository) //injected CartRepository because its in the service container
-    {
-        $this->cart = $cartRepository;
-    }
+    // protected $cart;
+    // function __construct(CartRepository $cart) //injected CartRepository because its in the service container
+    // {
+    //     $this->cart = $cart;
+    // }
 
     public function index() //injected CartRepository because its in the service container
     {
-        return view('front.cart', [
-            'cart' => $this->cart
-        ]);
+
+        return view('front.cart');
     }
 
     public function store(Request $request)
@@ -29,7 +29,7 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $this->cart->add(Product::find($request->product_id), $request->quantity);
+        Cart::add(Product::find($request->product_id), $request->quantity);
         return redirect()->route('cart.index');
     }
 

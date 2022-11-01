@@ -1,3 +1,6 @@
+@php
+    use App\Facades\Cart;
+@endphp
 <x-front-layout>
     <!-- Start Trending Product Area -->
     <section class="trending-product section" style="margin-top: 12px;">
@@ -12,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach ($cart->get() as $i => $item)
+                @foreach (Cart::get() as $i => $item)
                     <!-- Start Single Product -->
                     <div class="col-lg-3 col-md-6 col-12">
 
@@ -56,7 +59,7 @@
             <br>
             <br>
             <div class="price">
-            Total:    {{Currency::format($cart->total())}}
+            Total:    {{Currency::format(Cart::total())}}
             </div>
         </div>
     </section>
@@ -65,7 +68,7 @@
     @push('scripts')
     <script>
         const csrfToken = "{{ csrf_token() }}"
-        
+
     </script>
 
     <script src="{{asset('js/cart.js')}}"></script>
