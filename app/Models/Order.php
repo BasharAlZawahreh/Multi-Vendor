@@ -33,7 +33,7 @@ class Order extends Model
             ->belongsToMany(Product::class, 'order_items', 'order_id', 'product_id', 'id', 'id')
             ->using(OrderItem::class)//because we have a custom pivot model
             ->as('order_item') // to make an alias for the pivot table, so we call it like $order->order_item->quantity rather than $order->pivot->quantity
-            ->withPivot(['product_name', 'options', 'quantity', 'price']);
+            ->withPivot(['product_name', 'options', 'quantity', 'product_price']);
     }
 
     public function store()

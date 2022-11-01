@@ -10,16 +10,18 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // protected $cart;
-    // function __construct(CartRepository $cart) //injected CartRepository because its in the service container
-    // {
-    //     $this->cart = $cart;
-    // }
+    protected $cart;
+    function __construct(CartRepository $cart) //injected CartRepository because its in the service container
+    {
+        $this->cart = $cart;
+    }
 
     public function index() //injected CartRepository because its in the service container
     {
 
-        return view('front.cart');
+        return view('front.cart',[
+            'cart'=>$this->cart,
+        ]);
     }
 
     public function store(Request $request)
@@ -29,7 +31,7 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        Cart::add(Product::find($request->product_id), $request->quantity);
+        $this->cart->add(Product::find($request->product_id), $request->quantity);
         return redirect()->route('cart.index');
     }
 

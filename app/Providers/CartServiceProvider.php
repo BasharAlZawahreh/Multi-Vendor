@@ -10,6 +10,10 @@ class CartServiceProvider extends ServiceProvider
     //Register services in the service container.
     public function register()
     {
+        $this->app->singleton('cart',function(){
+            return new \App\Repositories\Cart\CartModelRepository();
+        });
+
         $this->app->bind(CartRepository::class,function(){
             return new \App\Repositories\Cart\CartModelRepository();
         });

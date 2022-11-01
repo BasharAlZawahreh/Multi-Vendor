@@ -28,11 +28,18 @@ class CheckoutController extends Controller
 
     public function store(Request $request, CartRepository $cart)
     {
-        // $request->validate([
-        //     'billing_address' => 'required',
-        //     'shipping_address' => 'required',
-        //     'payment_method' => 'required',
-        // ]);
+        $request->validate([
+            'addr.billing.first_name' => 'required',
+            'addr.billing.last_name' => 'required',
+            'addr.billing.email' => 'required',
+            'addr.billing.phone_number' => 'required',
+            'addr.billing.city' => 'required',
+            'addr.shipping.first_name' => 'required',
+            'addr.shipping.last_name' => 'required',
+            'addr.shipping.email' => 'required',
+            'addr.shipping.phone_number' => 'required',
+            'addr.shipping.city' => 'required',
+        ]);
 
         $items = $cart->get()->groupBy('product.store_id')->all();
 
@@ -60,10 +67,10 @@ class CheckoutController extends Controller
                     $address['type'] = $type;
                     $order->addresses()->create($address);
                 }
+
+                event(new OrderCreated($order));
             }
 
-            // event('order.created', $order);
-            event(new OrderCreated($order));
 
         } catch (\Throwable $th) {
             DB::rollBack();

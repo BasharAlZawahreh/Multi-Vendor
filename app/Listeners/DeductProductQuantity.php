@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class DeductProductQuantity
 {
-  
+
     public function __construct()
     {
         //
