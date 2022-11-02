@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\ImportProductsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
@@ -15,11 +16,18 @@ Route::prefix('dashboard')->middleware(['auth.role:admin,super_admin'])->group(f
         ]),
         Route::delete('categories/{id}/hard_delete', [CategoriesController::class, 'hardDelete'])->name('cat.hard_delete'),
         Route::put('categories/{id}/restore', [CategoriesController::class, 'restoreTrashed'])->name('cat.restore'),
-        Route::resource('products', ProductController::class),
+
+        Route::get('products/import', [ImportProductsController::class, 'create'])->name('products.import'),
+        Route::post('products/import', [ImportProductsController::class, 'store'])->name('products.import'),
+
+        Route::resource('products', ProductController::class)->where([
+            'product' => '[0-9]+'
+        ]),
         Route::get('categories/trashed', [CategoriesController::class, 'trsashed'])->name('cat.trashed'),
 
         Route::get('profile/edit', [ProfileController::class,'edit'])->name('profiles.edit'),
         Route::put('profile', [ProfileController::class,'update'])->name('profiles.update'),
+
     ];
 });
 
