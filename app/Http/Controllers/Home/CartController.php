@@ -13,14 +13,15 @@ class CartController extends Controller
     protected $cart;
     function __construct(CartRepository $cart) //injected CartRepository because its in the service container
     {
-        $this->cart = $cart;
+        // $this->cart = $cart;
+        $this->cart = app()->make(CartRepository::class); //this is the same as $this->cart = $cart;
     }
 
     public function index() //injected CartRepository because its in the service container
     {
-
         return view('front.cart',[
-            'cart'=>$this->cart,
+            'cart'=>Cart::get(),
+            'total'=>Cart::total()
         ]);
     }
 
