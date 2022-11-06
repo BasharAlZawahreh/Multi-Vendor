@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckUserRole
+class CheckAPIToken
 {
     /**
      * Handle an incoming request.
@@ -14,16 +14,14 @@ class CheckUserRole
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$allowedRoles)
+    public function handle(Request $request, Closure $next)
     {
-        if(!auth()->check()) {
-            return redirect()->route('login');
+        $token = $request->header('x-api-token');
+        if($token !== config('app.api_token')){
+           return response()->json([
+            'message' => 'Invalid X_API token'
+            ], 400);
         }
-
-        if (in_array($request->user()->role, $allowedRoles, true)) {
-           return $next($request);
-        }
-
-        return abort(403);
+        return $next($request);
     }
 }

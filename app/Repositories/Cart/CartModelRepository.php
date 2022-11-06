@@ -56,7 +56,7 @@ class CartModelRepository implements CartRepository
 
     public function clear(): void
     {
-        Cart::truncate();
+        Cart::query()->delete();
     }
 
     public function total(): float

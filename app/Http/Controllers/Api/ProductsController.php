@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +47,11 @@ class ProductsController extends Controller
             'status' => 'required|in:active,inactive',
             'compare_price' => 'nullable|numeric|gt:price',
         ]);
+
+        $user = request()->user();
+        if(!$user->tokenCan('products.create')){
+            abort(403,'You are not allowed to create products');
+        }
 
         $product = Product::create($request->all());
         return response()->json($product, 201,[
@@ -83,6 +92,13 @@ class ProductsController extends Controller
             'compare_price' => 'nullable|numeric|gt:price',
         ]);
 
+        $user = request()->user();
+        if(!$user->tokenCan('products.update')){
+            return response([
+                'message'=>'You are not allowed to delete products'
+            ],403);
+        }
+
         $product->update($request->all());
         return response()->json($product, 200);
     }
@@ -96,6 +112,10 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
+        $user = request()->user();
+        if(!$user->tokenCan('products.delete')){
+            abort(403,'You are not allowed to delete products');
+        }
         Product::destroy($id);
         return response()->json([
             'message' => 'Product deleted successfully'

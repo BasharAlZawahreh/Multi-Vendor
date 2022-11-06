@@ -60,4 +60,11 @@ class CartController extends Controller
         $this->cart->delete($id);
         return redirect()->route('cart.index');
     }
+
+    //DELETE: cart/clear (cart.clear)
+    public function clear()
+    {
+        $this->cart->clear();
+        return redirect()->route('cart.index');
+    }
 }

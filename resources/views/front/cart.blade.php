@@ -59,10 +59,21 @@
             <br>
             <br>
             <div class="price">
-                
+
             Total:    {{Currency::format($total)}}
             </div>
         </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <form action="{{route('cart.clear')}}" method="post">
+            @csrf
+            @method('delete')
+            <button type="submit" class="btn btn-danger">Clear Cart</button>
+        </form>
     </section>
     <!-- End Trending Product Area -->
 

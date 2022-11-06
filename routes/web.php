@@ -30,6 +30,7 @@ Route::get('/products', [ProductsController::class, 'index'])->name('front.produ
 Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->name('front.products.show');
 
 Route::resource('/cart', CartController::class);
+Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 
 
 Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
