@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\ImportProductsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\RolesController;
 
 Route::prefix('dashboard')->middleware(['auth.role:admin,super_admin'])->group(function () {
     return [
@@ -27,6 +28,8 @@ Route::prefix('dashboard')->middleware(['auth.role:admin,super_admin'])->group(f
 
         Route::get('profile/edit', [ProfileController::class,'edit'])->name('profiles.edit'),
         Route::put('profile', [ProfileController::class,'update'])->name('profiles.update'),
+
+        Route::resource('/roles', RolesController::class)
 
     ];
 });

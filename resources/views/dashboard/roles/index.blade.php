@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Categories')
+@section('title', 'Roles')
 
 @section('breadcrumbs')
     @parent
-    <li class="breadcrumb-item active">Categories</li>
+    <li class="breadcrumb-item active">Roles</li>
 @endsection
 
 @section('content')
     <div class="content-wrapper">
 
         <div class="left mb-5">
-            @can('categories.create')
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">Create</a>
-            @endcan
+            {{-- @can('roles.create') --}}
+            <a href="{{ route('roles.create') }}" class="btn btn-primary">Create</a>
+            {{-- @endcan --}}
             <a href="{{ route('cat.trashed') }}" class="btn btn-outline-dark">Trashed</a>
         </div>
 
@@ -31,36 +31,31 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Parent</th>
-                    <th scope="col">Products #</th>
-                    <th scope="col">Status</th>
                     <th scope="col">Created At</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    @forelse ($categories as $category)
-                        <td scope="col">{{ $category->id }}</td>
+                    @forelse ($roles as $role)
+                        <td scope="col">{{ $role->id }}</td>
                         <td scope="col">
-                            <a href="{{route('categories.show',$category->id)}}">
-                                {{ $category->name }}
+                            <a href="{{route('roles.show',$role->id)}}">
+                                {{ $role->name }}
                             </a>
                         </td>
-                        <td scope="col">{{ $category->parento->name }}</td>
-                        <td scope="col">{{ $category->products_count }}</td>
-                        <td scope="col">{{ $category->status }}</td>
-                        <td scope="col">{{ $category->created_at }}</td>
-                        @can('categories.update')
+                        <td scope="col">{{ $role->name }}</td>
+                        <td scope="col">{{ $role->created_at }}</td>
+                        @can('roles.update')
                          <td scope="col">
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary">
+                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary">
                                 Edit
                             </a>
                         </td>
                         @endcan
-                        @can('categories.delete')
+                        @can('roles.delete')
                             <td scope="col">
-                                <form action="{{ route('categories.destroy', $category->id) }}" method="post">
+                                <form action="{{ route('roles.destroy', $role->id) }}" method="post">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -70,11 +65,10 @@
                         @endcan
                 </tr>
             @empty
-                <td colspan="7" class="text-center">No categories found</td>
+                <td colspan="9" class="text-center">No roles found</td>
                 @endforelse
             </tbody>
         </table>
-        {{ $categories->withQueryString()->links() }}
     </div>
 @endsection
 

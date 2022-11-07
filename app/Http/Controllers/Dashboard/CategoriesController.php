@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
     public function index()
     {
+        if (Gate::denies('categories.view')) {
+            return abort(403);
+        }
+
         $categories = Category::with('parent')
             ->withCount([
                 'products as products_count' => function ($query) {
@@ -31,6 +36,10 @@ class CategoriesController extends Controller
 
     public function create()
     {
+        if (Gate::denies('categories.create')) {
+            return abort(403);
+        }
+
         return view('dashboard.categories.create', [
             'categories' => Category::all()
         ]);
@@ -51,6 +60,10 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
+        if (Gate::denies('categories.view')) {
+            return abort(403);
+        }
+
         return view('dashboard.categories.show', [
             'category' => $category,
             'products' => $category->products()->with('store')->latest()->paginate(10)
@@ -59,6 +72,7 @@ class CategoriesController extends Controller
 
     public function edit(Category $category)
     {
+        Gate::authorize('categories.update');
 
         return view('dashboard.categories.edit', [
             'category' => $category,
@@ -73,6 +87,7 @@ class CategoriesController extends Controller
 
     public function update(CategoryRequest $request, Category $category)
     {
+
         $attributes = $request->validated();
 
         $attributes['image'] = $this->uploadImage($request, $category->image);
