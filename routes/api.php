@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AccessTokensController;
 use App\Http\Controllers\Api\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Services\CurrencyConverted;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,8 @@ Route::delete('auth/access-token/{token?}', [AccessTokensController::class,'dest
 ->middleware('auth:sanctum');
 
 
+
 Route::apiResource('/products', ProductsController::class);
+
+
+Route::get('currencies', [CurrencyConverted::class,'currency']);

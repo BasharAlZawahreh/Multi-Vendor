@@ -19,6 +19,13 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
+    public function register()
+    {
+        parent::register();
+        $this->app->bind('abilities', function(){
+           return include base_path('Data/abilities.php');
+        });
+    }
     /**
      * Register any authentication / authorization services.
      *
@@ -28,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
     {
      $this->registerPolicies();
 
-     foreach (config('abilities') as $code => $ability) {
+     foreach ($this->app->make('abilities') as $code => $ability) {
         Gate::define($code,function($user) use ($code){
            return $user->hasAbility($code);
          });

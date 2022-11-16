@@ -116,6 +116,7 @@ class ProductsController extends Controller
         if(!$user->tokenCan('products.delete')){
             abort(403,'You are not allowed to delete products');
         }
+        
         Product::destroy($id);
         return response()->json([
             'message' => 'Product deleted successfully'

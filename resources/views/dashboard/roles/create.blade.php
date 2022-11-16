@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <fieldset>
                                     <legend>Abilities</legend>
-                                    @foreach (config('abilities') as $code=>$ability)
+                                    @foreach (app('abilities') as $code=>$ability)
                                         <div class="row mb-2">
                                             <div class="col-md-6">
                                                 {{ $ability }}
