@@ -32,8 +32,8 @@ class CurrencyConverterController extends Controller
 
         $rate = Cache::get($cacheKey, 0);
         if (!$rate) {
-            $rate = (new CurrencyConverter($api_key))
-            ->convert($baseCurrency, $currency_code);
+            $converter = app('currency.converter');
+            $rate = $converter->convert($baseCurrency, $currency_code);
 
             Cache::put($cacheKey, $rate, now()->addMinutes(60));
         }
