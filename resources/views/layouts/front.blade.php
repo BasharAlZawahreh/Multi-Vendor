@@ -50,12 +50,8 @@
                                     <div class="select-position">
                                         <form action="{{ route('currency.store') }}" method="POST">
                                             @csrf
-                                            <select name="currency_code" onchange="this.form.submit">
-                                                @foreach ($currencies as $currency)
-                                                    <option @selected($currency->code === $currency) value="{{ $currency->code }}">
-                                                        {{ $currency->code }}
-                                                    </option>
-                                                @endforeach
+                                            <select id="currency_code" name="currency_code" onchange="this.form.submit()">
+
                                             </select>
                                         </form>
                                     </div>
@@ -461,6 +457,24 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>
+
+    <script>
+        let currency_code = <?php echo '"'.$currency_code.'"'; ?>;
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "{{ route('currencies.index') }}",
+                method: "GET",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $('#currency_code').append(`<option ${value.code === currency_code ? "selected":''} value="${value.code }"> ${value.code } </option>`);
+                    });
+
+                }
+            });
+
+        });
+    </script>
 
 
     @stack('scripts')

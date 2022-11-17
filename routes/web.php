@@ -37,7 +37,7 @@ Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
-Route::get('/currencies', [CurrencyConverterController::class,'index']);
+Route::get('/currencies', [CurrencyConverterController::class,'index'])->name('currencies.index');
 Route::post('/currency', [CurrencyConverterController::class,'store'])->name('currency.store');
 
 require __DIR__ . '/auth.php';

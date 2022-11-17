@@ -47,17 +47,21 @@ class CurrencyConverter
      * curl --request GET 'https://api.apilayer.com/currency_data/convert?base=USD&symbols=EUR,GBP,JPY&*amount=5&date=2018-01-01' \
      * header 'apikey: YOUR API KEY'
      */
-    public function convert(string $from, string $to, float $amount = 1): float
+    public function convert(string $from, string $to, float $amount = 1)
     {
-        $response = Http::baseUrl($this->base_url)
-            ->withHeaders($this->headers)
-            ->get('/convert', [
-                'from' => $from,
-                "to" => $to,
-                "amount" => $amount,
-                "date" => now()
-            ]);
+        try {
+            $response = Http::baseUrl($this->base_url)
+                ->withHeaders($this->headers)
+                ->get('/convert', [
+                    'from' => $from,
+                    "to" => $to,
+                    "amount" => $amount,
+                    "date" => now()
+                ]);
 
-       return $response->json()['result'];
+           return $response->json()['result'];
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }
