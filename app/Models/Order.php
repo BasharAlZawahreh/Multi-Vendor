@@ -36,6 +36,11 @@ class Order extends Model
             ->withPivot(['product_name', 'options', 'quantity', 'product_price']);
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class,'order_id');
+    }
+
     public function store()
     {
         return $this->belongsTo(Store::class);

@@ -4,6 +4,7 @@ use App\Http\Controllers\CurrencyConverterController;
 use App\Http\Controllers\Home\CartController;
 use App\Http\Controllers\Home\CheckoutController;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\PaymentsController;
 use App\Http\Controllers\Home\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,10 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 
 Route::get('/currencies', [CurrencyConverterController::class,'index'])->name('currencies.index');
 Route::post('/currency', [CurrencyConverterController::class,'store'])->name('currency.store');
+
+Route::get('orders/{order}/payment', [PaymentsController::class,'create'])->name('orders.payment.create');
+Route::post('orders/{order/stripe/created}', [PaymentsController::class,'createStripePaymentIntent'])->name('stripe.intent');
+Route::get('orders/{order}/stripe/success', [PaymentsController::class,'success'])->name('stripe.success');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/dashboard.php';
